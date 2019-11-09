@@ -14,6 +14,7 @@ using TeduCoreApp.Models;
 using TeduCoreApp.Models.ManageViewModels;
 using TeduCoreApp.Services;
 using TeduCoreApp.Data.Entities;
+using TeduCoreApp.Data.EF;
 
 namespace TeduCoreApp.Controllers
 {
@@ -23,6 +24,7 @@ namespace TeduCoreApp.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly AppDbContext _dbcontext;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
@@ -34,12 +36,14 @@ namespace TeduCoreApp.Controllers
           SignInManager<AppUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
+          AppDbContext dbcontext,
           UrlEncoder urlEncoder)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _dbcontext = dbcontext;
             _urlEncoder = urlEncoder;
         }
 
@@ -47,6 +51,8 @@ namespace TeduCoreApp.Controllers
         public string StatusMessage { get; set; }
 
         [HttpGet]
+
+        [Route("account.html")]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -57,8 +63,11 @@ namespace TeduCoreApp.Controllers
 
             var model = new IndexViewModel
             {
+                
                 Username = user.UserName,
                 Email = user.Email,
+                FullName=user.FullName,
+                Address=user.Address,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage

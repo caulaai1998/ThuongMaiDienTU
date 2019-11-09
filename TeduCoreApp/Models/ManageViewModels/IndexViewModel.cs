@@ -9,9 +9,10 @@ namespace TeduCoreApp.Models.ManageViewModels
     public class IndexViewModel
     {
         public string Username { get; set; }
-
+        public string FullName { get; set; }
         public bool IsEmailConfirmed { get; set; }
 
+        public string Address { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
