@@ -19,7 +19,6 @@ using TeduCoreApp.Data.EF;
 namespace TeduCoreApp.Controllers
 {
     [Authorize]
-    [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
