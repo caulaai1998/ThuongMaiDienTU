@@ -30,7 +30,7 @@ namespace TeduCoreApp.Data.EF
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<Announcement> Announcements { set; get; }
 
-        public DbSet<Blog> Bills { set; get; }
+        public DbSet<Bill> Bills { set; get; }
         public DbSet<BillDetail> BillDetails { set; get; }
         public DbSet<Blog> Blogs { set; get; }
         public DbSet<BlogTag> BlogTags { set; get; }

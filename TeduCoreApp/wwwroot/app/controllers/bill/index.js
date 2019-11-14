@@ -71,7 +71,6 @@
                     var data = response;
                     $('#hidId').val(data.Id);
                     $('#txtCustomerName').val(data.CustomerName);
-
                     $('#txtCustomerAddress').val(data.CustomerAddress);
                     $('#txtCustomerMobile').val(data.CustomerMobile);
                     $('#txtCustomerMessage').val(data.CustomerMessage);

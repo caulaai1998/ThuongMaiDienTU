@@ -1,11 +1,21 @@
 ﻿@model IndexViewModel
 @{
-    ViewData["Title"] = "Profile";
+
+    ViewData["Title"] = "Index";
 }
+@section Scripts{
+    <script src="~/client-app/controllers/manage/order.js" asp-append-version="true"></script>
+    <script>
+        var orderObj = new OrderController();
+    </script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+
 
 <head>
     <title>Profile</title>
-   
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -14,7 +24,7 @@
 
 
 <div class="container emp-profile">
-    <form method="post">
+    <form  method="post">
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
@@ -97,53 +107,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Experience</label>
+                    <div class="tab-pane fade" id="listorderhistory" role="tabpanel" aria-labelledby="profile-tab">
+                        <script id="template-order" type="x-tmpl-mustache">
+                            <div class="row">
+                                <ul>
+                                    <li>{{ProductName}}</li>
+                                </ul>
                             </div>
-                            <div class="col-md-6">
-                                <p>Expert</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Hourly Rate</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>10$/hr</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Total Projects</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>230</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>English Level</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Expert</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Availability</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>6 months</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label>Your Bio</label><br />
-                                <p>Your detail description</p>
-                            </div>
-                        </div>
+                        </script>
+                       
+
                     </div>
                 </div>
             </div>
@@ -151,6 +124,3 @@
     </form>
 </div>
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}

@@ -75,6 +75,32 @@ namespace TeduCoreApp.Controllers
             return View(model);
         }
 
+
+        public async Task<IActionResult> Order()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var orderlist = (from users in _dbcontext.AppUsers
+                             join bills in _dbcontext.Bills on users.Id equals bills.CustomerId
+                             join details in _dbcontext.BillDetails on bills.Id equals details.BillId
+                             join products in _dbcontext.Products on details.ProductId equals products.Id
+                             where users.Id == user.Id
+                          select new ManageViewModel
+                          {
+                              BillId = bills.Id,
+                              ProductName= products.Name,
+                              ProductImage=products.Image,
+                              Quantity = details.Quantity,
+                              OrderDate=bills.DateCreated,
+                          });
+            var list = orderlist.ToList();
+            return new ObjectResult(list);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(IndexViewModel model)

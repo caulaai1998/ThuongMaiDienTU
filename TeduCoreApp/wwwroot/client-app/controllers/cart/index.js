@@ -3,6 +3,7 @@
         colors: [],
         sizes: [],
     }
+
     this.initialize = function () {
     $.when(loadColors(),
             loadSizes())
@@ -110,6 +111,7 @@
             }
 
         });
+
         $('#btnClearAll').on('click', function (e) {
             e.preventDefault();
             $.ajax({
@@ -150,6 +152,7 @@
             }
         });
     }
+
     function getColorOptions(selectedId) {
         var colors = "<select class='form-control ddlColorId'><option value='0'></option>";
         $.each(cachedObj.colors, function (i, color) {
@@ -173,6 +176,7 @@
         sizes += "</select>";
         return sizes;
     }
+
     function loadHeaderCart() {
         $("#headerCart").load("/AjaxContent/HeaderCart");
     }
