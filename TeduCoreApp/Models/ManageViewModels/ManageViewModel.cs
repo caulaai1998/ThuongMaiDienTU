@@ -8,6 +8,8 @@ namespace TeduCoreApp.Models.ManageViewModels
     public class ManageViewModel
     {
         public int BillId { get; set; }
+        public int ProductId { get; set; }
+        public string SeoAlias { get; set; }
         public string ProductName { get; set; }
         public string ProductImage { get; set; }
         public int Quantity { get; set; }

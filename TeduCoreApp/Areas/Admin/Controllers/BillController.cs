@@ -36,6 +36,8 @@ namespace TeduCoreApp.Areas.Admin.Controllers
         {
             var model = _billService.GetDetail(id);
 
+
+
             return new OkObjectResult(model);
         }
         [HttpGet]

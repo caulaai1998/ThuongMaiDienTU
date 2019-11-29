@@ -121,6 +121,7 @@
                 var customerMessage = $('#txtCustomerMessage').val();
                 var paymentMethod = $('#ddlPaymentMethod').val();
                 var billStatus = $('#ddlBillStatus').val();
+                disableFieldEdit(true);
                 //bill detail
 
                 var billDetails = [];
@@ -211,6 +212,11 @@
             });
         });
     };
+
+    function disableFieldEdit(disabled) {
+        $('#ddlCustomerId').prop('disabled', disabled);
+
+    }
 
     function loadBillStatus() {
         return $.ajax({
@@ -322,6 +328,7 @@
         return sizes;
     }
     function resetFormMaintainance() {
+        disableFieldEdit(false);
         $('#hidId').val(0);
         $('#txtCustomerName').val('');
 
@@ -357,6 +364,7 @@
                         render += Mustache.render(template, {
                             CustomerName: item.CustomerName,
                             Id: item.Id,
+                            CustomerId: item.CustomerId,
                             PaymentMethod: getPaymentMethodName(item.PaymentMethod),
                             DateCreated: tedu.dateTimeFormatJson(item.DateCreated),
                             BillStatus: getBillStatusName(item.BillStatus)

@@ -87,16 +87,19 @@ namespace TeduCoreApp.Controllers
             var orderlist = (from users in _dbcontext.AppUsers
                              join bills in _dbcontext.Bills on users.Id equals bills.CustomerId
                              join details in _dbcontext.BillDetails on bills.Id equals details.BillId
-                             join products in _dbcontext.Products on details.ProductId equals products.Id
+                             join products in _dbcontext.Products on details.ProductId equals products.Id   
                              where users.Id == user.Id
-                          select new ManageViewModel
+                             select new ManageViewModel
                           {
                               BillId = bills.Id,
+                              ProductId=products.Id,
+                              SeoAlias=products.SeoAlias,
                               ProductName= products.Name,
                               ProductImage=products.Image,
                               Quantity = details.Quantity,
                               OrderDate=bills.DateCreated,
                           });
+
             var list = orderlist.ToList();
             return new ObjectResult(list);
         }

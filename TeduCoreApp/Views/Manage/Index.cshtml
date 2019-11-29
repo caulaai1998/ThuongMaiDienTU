@@ -7,6 +7,7 @@
     <script src="~/client-app/controllers/manage/order.js" asp-append-version="true"></script>
     <script>
         var orderObj = new OrderController();
+        orderObj.initialize();
     </script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
@@ -16,15 +17,19 @@
 <head>
     <title>Profile</title>
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="~/client-side/css/userprofile/userprofile.css" rel="stylesheet" />
 </head>
 
 
 
 <div class="container emp-profile">
-    <form  method="post">
+    <form method="post">
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
@@ -50,7 +55,7 @@
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#order-history" role="tab" aria-controls="profile" aria-selected="false">Order History</a>
                         </li>
                     </ul>
                 </div>
@@ -59,12 +64,11 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-
             </div>
+
             <div class="col-md-8">
                 <div class="tab-content profile-tab" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
                         <div class="row">
                             <div class="col-md-6">
                                 <label>User Id</label>
@@ -107,15 +111,65 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="listorderhistory" role="tabpanel" aria-labelledby="profile-tab">
-                        <script id="template-order" type="x-tmpl-mustache">
-                            <div class="row">
-                                <ul>
-                                    <li>{{ProductName}}</li>
-                                </ul>
+
+                    <div class="tab-pane fade show active" id="order-history" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="container">
+                            <div class="row" id="table-order-history-content"></div>
+                        </div>
+
+                        <script id="listorderhistory" type="x-tmpl-mustache">
+                            <div class="container" style="margin-bottom:20px">
+                                <div class="row">
+                                    <div class="display-bill-id-{{BillId}}">
+                                        <div class="row">
+                                            <span class="Bold" style="margin-left:20px;margin-bottom:20px  ; font-size:20px">Đơn hàng số: <a href="#" style="font-size:15px">{{BillId}}</a></span>
+                                        </div>
+
+                                        @*<div class="row">
+                                                <span class="Bold" style="font-size:10px"> Đặt hàng ngày <a style="font-size:10px">{{OrderDate}}</a> </span>
+
+                                            </div>*@
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-md-5" data-id="{{ProductId}}">
+                                            <a href="{{Url}}">
+                                                <img class="col-md-10" src="{{ProductImage}}" alt="{{ProductName}}">
+                                            </a>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <p>{{ProductName}}</p>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <span style="color:gray">Số lượng: <span style="color:black">{{Quantity}}</span> </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </script>
-                       
+
+
+                        <script id="listorderhistory2" type="x-tmpl-mustache">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div style="margin-left:12px" class="col-md-5" data-id="{{ProductId}}">
+                                        <a href="{{Url}}">
+                                            <img class="col-md-11" src="{{ProductImage}}" alt="{{ProductName}}">
+                                        </a>
+                                    </div>
+                                    <div style="margin-left:30px" class="col-sm-3">
+                                        <p>{{ProductName}}</p>
+                                    </div>
+
+                                    <div style="margin-left:10px" class="col-sm-2">
+                                        <span style="color:gray">Số lượng: <span style="color:black">{{Quantity}}</span> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
 
                     </div>
                 </div>
