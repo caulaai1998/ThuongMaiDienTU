@@ -23,6 +23,8 @@ namespace TeduCoreApp.Application.Interfaces
 
         void UpdateStatus(int orderId, BillStatus status);
 
+        string GetBillStatus(int billId);
+
         List<BillDetailViewModel> GetBillDetails(int billId);
 
         List<ColorViewModel> GetColors();

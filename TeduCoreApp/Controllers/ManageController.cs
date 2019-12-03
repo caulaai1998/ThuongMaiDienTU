@@ -15,6 +15,10 @@ using TeduCoreApp.Models.ManageViewModels;
 using TeduCoreApp.Services;
 using TeduCoreApp.Data.Entities;
 using TeduCoreApp.Data.EF;
+using TeduCoreApp.Application.Interfaces;
+using TeduCoreApp.Data.Enums;
+using TeduCoreApp.Application.ViewModels.Common;
+using TeduCoreApp.Utilities.Extensions;
 
 namespace TeduCoreApp.Controllers
 {
@@ -24,6 +28,7 @@ namespace TeduCoreApp.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly AppDbContext _dbcontext;
+        private readonly IBillService _billService;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
@@ -33,6 +38,7 @@ namespace TeduCoreApp.Controllers
         public ManageController(
           UserManager<AppUser> userManager,
           SignInManager<AppUser> signInManager,
+           IBillService billService,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           AppDbContext dbcontext,
@@ -92,7 +98,8 @@ namespace TeduCoreApp.Controllers
                              select new ManageViewModel
                           {
                               BillId = bills.Id,
-                              ProductId=products.Id,
+                                 Billstatus = bills.BillStatus,
+                                 ProductId =products.Id,
                               SeoAlias=products.SeoAlias,
                               ProductName= products.Name,
                               ProductImage=products.Image,
@@ -102,6 +109,18 @@ namespace TeduCoreApp.Controllers
 
             var list = orderlist.ToList();
             return new ObjectResult(list);
+        }
+
+        [HttpGet]
+        public IActionResult GetBillStatus()
+        {
+            List<EnumModel> enums = ((BillStatus[])Enum.GetValues(typeof(BillStatus)))
+                .Select(c => new EnumModel()
+                {
+                    Value = (int)c,
+                    Name = c.GetDescription()
+                }).ToList();
+            return new OkObjectResult(enums);
         }
 
         [HttpPost]

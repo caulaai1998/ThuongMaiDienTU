@@ -144,7 +144,7 @@ namespace TeduCoreApp.Application.Implementation
 
         public BillViewModel GetDetail(int billId)
         {
-            var bill = _orderRepository.FindSingle(x => x.Id == billId);
+            var bill = _orderRepository.FindById(billId);
             var billVm = Mapper.Map<Bill, BillViewModel>(bill);
             var billDetailVm = _orderDetailRepository.FindAll(x => x.BillId == billId).ProjectTo<BillDetailViewModel>().ToList();
             billVm.BillDetails = billDetailVm;
@@ -156,6 +156,26 @@ namespace TeduCoreApp.Application.Implementation
             return _orderDetailRepository
                 .FindAll(x => x.BillId == billId, c => c.Bill, c => c.Color, c => c.Size, c => c.Product)
                 .ProjectTo<BillDetailViewModel>().ToList();
+        }
+
+        public string GetBillStatus(int billId)
+        {
+            var order = _orderRepository.FindById(billId);
+            switch (order.BillStatus)
+            {
+                case BillStatus.Cancelled:
+                    return "Đã hủy";
+                case BillStatus.Completed:
+                    return "Đã giao hàng";
+                case BillStatus.InProgress:
+                    return "Đang giao hàng";
+                case BillStatus.New:
+                    return "Đang xử lý";
+                case BillStatus.Returned:
+                    return "Đã đổi trả";
+                default:
+                    return "something wrong here";
+            }
         }
 
         public List<ColorViewModel> GetColors()

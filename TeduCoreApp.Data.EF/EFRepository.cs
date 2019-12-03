@@ -68,13 +68,18 @@ namespace TeduCoreApp.Data.EF
 
         public void Remove(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            //Soft delete
+            dynamic obj = entity;
+            obj.Status = 0;
+            _context.Set<T>().Update(obj);
+            //Hard delete
+            // _context.Set<T>().Remove(entity);
         }
 
         public void Remove(K id)
         {
-            var entity = FindById(id);
-            Remove(entity);
+           // var entity = FindById(id);
+            Remove(FindById(id));
         }
 
         public void RemoveMultiple(List<T> entities)
