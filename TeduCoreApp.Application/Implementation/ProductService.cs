@@ -140,6 +140,9 @@ namespace TeduCoreApp.Application.Implementation
             return paginationSet;
         }
 
+
+
+
         public ProductViewModel GetById(int id)
         {
             return Mapper.Map<Product, ProductViewModel>(_productRepository.FindById(id));

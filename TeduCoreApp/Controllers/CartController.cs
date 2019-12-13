@@ -105,7 +105,7 @@ namespace TeduCoreApp.Controllers
                     {
 
                         _billService.Save();
-
+                        ClearCart();
                         //var content = await _viewRenderService.RenderToStringAsync("Cart/_BillMail", billViewModel);
                         //Send mail
                         //await _emailSender.SendEmailAsync(_configuration["MailSettings:AdminMail"], "New bill from Panda Shop", content);
