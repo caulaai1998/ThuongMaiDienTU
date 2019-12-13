@@ -13,6 +13,8 @@ using TeduCoreApp.Data.Enums;
 using System.Security.Claims;
 using TeduCoreApp.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
+using TeduCoreApp.Data.Entities;
 
 namespace TeduCoreApp.Controllers
 {
@@ -22,12 +24,16 @@ namespace TeduCoreApp.Controllers
         IBillService _billService;
         IViewRenderService _viewRenderService;
         IConfiguration _configuration;
+        private readonly UserManager<AppUser> _manager;
         IEmailSender _emailSender;
         public CartController(IProductService productService,
             IViewRenderService viewRenderService,IEmailSender emailSender,
-            IConfiguration configuration, IBillService billService)
+            IConfiguration configuration,
+             UserManager<AppUser> manager, 
+             IBillService billService)
         {
             _productService = productService;
+            _manager = manager;
             _billService = billService;
             _viewRenderService = viewRenderService;
             _configuration = configuration;
@@ -41,8 +47,11 @@ namespace TeduCoreApp.Controllers
 
         [Route("checkout.html", Name = "Checkout")]
         [HttpGet]
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout()
         {
+            AppUser user = await GetCurrentUser();
+            ViewData["UserInfo"] = user;
+
             var model = new CheckoutViewModel();
             var session = HttpContext.Session.Get<List<ShoppingCartViewModel>>(CommonConstants.CartSession);
             if (session.Any(x => x.Color == null || x.Size == null))
@@ -114,6 +123,12 @@ namespace TeduCoreApp.Controllers
             return View(model);
         }
         #region AJAX Request
+
+        private async Task<AppUser> GetCurrentUser()
+        {
+            return await _manager.GetUserAsync(HttpContext.User);
+        }
+
         /// <summary>
         /// Get list item
         /// </summary>

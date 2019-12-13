@@ -1,6 +1,6 @@
 ﻿@model CheckoutViewModel
 @{
-    ViewData["Title"] = "Checkout";
+    var userInfo = ViewData["UserInfo"] as AppUser;
 }
 @section Scripts {
     @*<recaptcha-script validation-message-element-id="recaptchaErrorMessage" />*@
@@ -133,12 +133,12 @@
                                     <li class="row">
                                         <div class="col-sm-6">
                                             <label class="required">Full name</label>
-                                            <input class="input form-control" type="text" asp-for="CustomerName">
+                                            <input class="input form-control" type="text" asp-for="CustomerName" value="@userInfo.FullName">
                                         </div>
                                         <!--/ [col] -->
                                         <div class="col-sm-6">
                                             <label class="required">Phone</label>
-                                            <input class="input form-control" type="text" asp-for="CustomerMobile">
+                                            <input class="input form-control" type="text" asp-for="CustomerMobile" value="@userInfo.PhoneNumber">
                                         </div>
                                     </li>
                                     <!--/ .row -->
@@ -146,7 +146,7 @@
                                     <li class="row">
                                         <div class="col-xs-12">
                                             <label class="required">Address</label>
-                                            <input class="input form-control" type="text" asp-for="CustomerAddress">
+                                            <input class="input form-control" type="text" asp-for="CustomerAddress" value="@userInfo.Address">
                                         </div>
                                         <!--/ [col] -->
                                     </li>
