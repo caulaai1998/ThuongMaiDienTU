@@ -48,6 +48,7 @@ namespace TeduCoreApp.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _billService = billService;
             _dbcontext = dbcontext;
             _urlEncoder = urlEncoder;
         }
@@ -109,6 +110,15 @@ namespace TeduCoreApp.Controllers
 
             var list = orderlist.ToList();
             return new ObjectResult(list);
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        public IActionResult CancelOrder(int billId)
+        {
+            _billService.UpdateStatus(billId, BillStatus.Cancelled);
+
+            return new OkResult();
         }
 
         [HttpGet]

@@ -7,7 +7,7 @@ namespace TeduCoreApp.Data.Enums
 {
     public enum BillStatus
     {
-        [Description("New bill")]
+        [Description("Pending")]
         New,
         [Description("In Progress")]
         InProgress,

@@ -58,6 +58,7 @@
         });
 
         $('body').on('click', '.btn-view', function (e) {
+            resetFormMaintainance();
             e.preventDefault();
             var that = $(this).data('id');
             $.ajax({
@@ -71,37 +72,76 @@
                     var data = response;
                     $('#hidId').val(data.Id);
                     $('#txtCustomerName').val(data.CustomerName);
+                    $('#txtCustomerName').prop('disabled', true);
                     $('#txtCustomerAddress').val(data.CustomerAddress);
+                    $('#txtCustomerAddress').prop('disabled', true);
                     $('#txtCustomerMobile').val(data.CustomerMobile);
+                    $('#txtCustomerMobile').prop('disabled', true);
                     $('#txtCustomerMessage').val(data.CustomerMessage);
+                    $('#txtCustomerMessage').prop('disabled', true);
                     $('#ddlPaymentMethod').val(data.PaymentMethod);
+                    $('#ddlPaymentMethod').prop('disabled', true);
                     $('#ddlCustomerId').val(data.CustomerId);
                     $('#ddlBillStatus').val(data.BillStatus);
+                    if (data.BillStatus == '0' || data.BillStatus == '5') {
+                        $('#ddlBillStatus').prop('disabled', true);
+                        var billDetails = data.BillDetails;
+                        if (data.BillDetails != null && data.BillDetails.length > 0) {
+                            var render = '';
+                            var templateDetails = $('#template-table-bill-details').html();
 
-                    var billDetails = data.BillDetails;
-                    if (data.BillDetails != null && data.BillDetails.length > 0) {
-                        var render = '';
-                        var templateDetails = $('#template-table-bill-details').html();
+                            $.each(billDetails, function (i, item) {
+                                var products = getProductOptions(item.ProductId);
+                                var colors = getColorOptions(item.ColorId);
+                                var sizes = getSizeOptions(item.SizeId);
 
-                        $.each(billDetails, function (i, item) {
-                            var products = getProductOptions(item.ProductId);
-                            var colors = getColorOptions(item.ColorId);
-                            var sizes = getSizeOptions(item.SizeId);
-
-                            render += Mustache.render(templateDetails,
-                                {
-                                    Id: item.Id,
-                                    Products: products,
-                                    Colors: colors,
-                                    Sizes: sizes,
-                                    Quantity: item.Quantity
-                                });
-                        });
-                        $('#tbl-bill-details').html(render);
+                                render += Mustache.render(templateDetails,
+                                    {
+                                        Id: item.Id,
+                                        Products: products,
+                                        Colors: colors,
+                                        Sizes: sizes,
+                                        Quantity: item.Quantity
+                                    });
+                            });
+                            $('#tbl-bill-details').html(render);
+                        }
+                        $('tbl-bill-details').prop('disable', true);
+                        $('#modal-detail').modal('show');
+                        $("#tbl-bill-details input").prop('disabled', true);
+                        $("#tbl-bill-details select").prop('disabled', true);
+                        $("#tbl-bill-details button").prop('disabled', true);
+                        $("#btnAddDetail").prop('disabled', true);
+                        $("#btnSave").hide();
+                        tedu.stopLoading();
                     }
-                    $('#modal-detail').modal('show');
-                    tedu.stopLoading();
 
+                    else {
+                        var billDetails = data.BillDetails;
+                        if (data.BillDetails != null && data.BillDetails.length > 0) {
+                            var render = '';
+                            var templateDetails = $('#template-table-bill-details').html();
+
+                            $.each(billDetails, function (i, item) {
+                                var products = getProductOptions(item.ProductId);
+                                var colors = getColorOptions(item.ColorId);
+                                var sizes = getSizeOptions(item.SizeId);
+                                render += Mustache.render(templateDetails,
+                                    {
+                                        Id: item.Id,
+                                        Products: products,
+                                        Colors: colors,
+                                        Sizes: sizes,
+                                        Quantity: item.Quantity
+                                    });
+                            });
+                            $('#tbl-bill-details').html(render);
+                        }
+                        $('tbl-bill-details').prop('disable', true);
+                        $("#btnSave").show();
+                        $('#modal-detail').modal('show');
+                        tedu.stopLoading();
+                    }
                 },
                 error: function (e) {
                     tedu.notify('Has an error in progress', 'error');
@@ -234,6 +274,7 @@
         });
     }
 
+   
     function loadPaymentMethod() {
         return $.ajax({
             type: "GET",
@@ -339,6 +380,14 @@
         $('#ddlCustomerId').val('');
         $('#ddlBillStatus').val('');
         $('#tbl-bill-details').html('');
+
+        $('#txtCustomerName').prop('disabled', false);
+        $('#txtCustomerAddress').prop('disabled', false);
+        $('#txtCustomerMobile').prop('disabled', false);
+        $('#txtCustomerMessage').prop('disabled', false);
+        $('#ddlPaymentMethod').prop('disabled', false);
+        $('#ddlBillStatus').prop('disabled', false);
+        $("#btnAddDetail").prop('disabled', false);
     }
 
     function loadData(isPageChanged) {
@@ -367,7 +416,8 @@
                             CustomerId: item.CustomerId,
                             PaymentMethod: getPaymentMethodName(item.PaymentMethod),
                             DateCreated: tedu.dateTimeFormatJson(item.DateCreated),
-                            BillStatus: getBillStatusName(item.BillStatus)
+                            BillStatus: getBillStatusName(item.BillStatus),
+
                         });
                     });
                     $("#lbl-total-records").text(response.RowCount);

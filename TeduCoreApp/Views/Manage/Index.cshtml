@@ -121,14 +121,14 @@
                             <div class="container" style="margin-bottom:20px">
                                 <div class="row">
                                     <div class="display-bill-id-{{BillId}}">
-                                        <div class="row">
-                                            <span class="Bold" style="margin-left:20px;margin-bottom:20px  ; font-size:20px">Đơn hàng số: <a href="#" style="font-size:15px">{{BillId}}</a></span>
+                                        <div class="row" style="margin-left:20px">
+                                            <h5>Đơn hàng số: {{BillId}} | {{BillStatus}}  <button data-id="{{BillId}}" id="btn-cancel-order">Hủy đơn hàng</button></h5> 
                                         </div>
 
                                         @*<div class="row">
-                                                <span class="Bold" style="font-size:10px"> Đặt hàng ngày <a style="font-size:10px">{{OrderDate}}</a> </span>
+                            <span class="Bold" style="font-size:10px"> Đặt hàng ngày <a style="font-size:10px">{{OrderDate}}</a> </span>
 
-                                            </div>*@
+                        </div>*@
                                     </div>
                                 </div>
                                 <div class="row">
@@ -170,6 +170,41 @@
                                 </div>
                             </div>
                         </script>
+
+                        <script id="cancelorder" type="x-tmpl-mustache">
+                            <div class="container" style="margin-bottom:20px">
+                                <div class="row">
+                                    <div class="display-bill-id-{{BillId}}">
+                                        <div class="row" style="margin-left:20px">
+                                            <h5>Đơn hàng số: {{BillId}} | {{BillStatus}}  <button data-id="{{BillId}}" id="btn-cancel-order">Hủy đơn hàng</button></h5>
+                                        </div>
+
+                                        @*<div class="row">
+                            <span class="Bold" style="font-size:10px"> Đặt hàng ngày <a style="font-size:10px">{{OrderDate}}</a> </span>
+
+                        </div>*@
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-md-5" data-id="{{ProductId}}">
+                                            <a href="{{Url}}">
+                                                <img class="col-md-10" src="{{ProductImage}}" alt="{{ProductName}}">
+                                            </a>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <p>{{ProductName}}</p>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <span style="color:gray">Số lượng: <span style="color:black">{{Quantity}}</span> </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+
 
                     </div>
                 </div>
