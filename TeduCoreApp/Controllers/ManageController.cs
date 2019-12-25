@@ -22,7 +22,8 @@ using TeduCoreApp.Utilities.Extensions;
 
 namespace TeduCoreApp.Controllers
 {
-    [Authorize]
+   // [Authorize]
+    [AllowAnonymous]
     public class ManageController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -114,10 +115,10 @@ namespace TeduCoreApp.Controllers
 
         [HttpPut]
         [AllowAnonymous]
-        public IActionResult CancelOrder(int billId)
+        public IActionResult CancelOrder( int billId)
         {
             _billService.UpdateStatus(billId, BillStatus.Cancelled);
-
+            _dbcontext.SaveChanges();
             return new OkResult();
         }
 

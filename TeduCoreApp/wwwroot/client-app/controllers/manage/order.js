@@ -26,11 +26,11 @@
                     var that = $(this).data('id');
                     $.ajax({
                         url: '/Manage/CancelOrder',
-                        type: 'PUT',
+                        type: 'PUT',    
                         data: { billId: that },
                         success: function () {
-                            var html = "<span>Đơn hàng số:" + that + "Đơn hàng bị hủy";
-                            html += "</span>"
+                            var html = "<h5>Đơn hàng số:" + that + " | Cancelled";
+                            html += "</h5>"
                             document.getElementsByClassName('display-bill-id-' + that)[0].childNodes[1].innerHTML = html;
                         },
                         error: function () {
