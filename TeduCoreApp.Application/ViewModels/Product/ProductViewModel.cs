@@ -17,10 +17,7 @@ namespace TeduCoreApp.Application.ViewModels.Product
 
         [Required]
         public int CategoryId { get; set; }
-
-        public int AuthorId { get; set; }
-
-        public int PublisherId { get; set; }
+        
 
 
         [StringLength(255)]
